@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("org.biantan.bilifm", appContext.getPackageName());
+        assertEquals("org.biantan.bilifm3", appContext.getPackageName());
     }
 }

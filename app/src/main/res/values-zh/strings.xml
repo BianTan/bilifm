@@ -1,4 +1,17 @@
 <resources>
     <string name="app_name">bili封面</string>
     <string name="action_settings">设置</string>
+    <string name="action_about">关于</string>
+    <string name="action_help">帮助</string>
+
+    <string name="settings_down">保存</string>
+    <string name="settings_down_path">保存路径</string>
+
+    <string name="md_name">番名:</string>
+    <string name="md_info">介绍:</string>
+
+    <string name="more">其它</string>
+
+    <string name="ver">1.2 (20180523)</string>
+
 </resources>
