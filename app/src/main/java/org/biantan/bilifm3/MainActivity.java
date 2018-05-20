@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int cwxx = 3;
     private int md_xx = 3;
     private int live_xx = 3;
+    private int cv_xx = 3;
     private ProgressDialog dialog;
     private String userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36";
     private String urlx = "https://www.bilibili.com/video/av";
@@ -217,9 +218,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 input.setText(SearchName);
                 CoverSearch();
             } else if (f >= 0) {    //如果分享链接为专栏时
-//                spinner.setSelection(3);
-//                Search_option_id = 4;
-                Toast.makeText(MainActivity.this, "建设中Orz...", Toast.LENGTH_SHORT).show();
+                spinner.setSelection(3);
+                Search_option_id = 4;
+                EditText input = (EditText) findViewById(R.id.Search_AV);
+                SearchName = sharedText.substring(f + 24);
+                input.setText(SearchName);
+                CoverSearch();
             } else {
                 Toast.makeText(MainActivity.this, "不是有效的链接哦Orz...", Toast.LENGTH_SHORT).show();
             }
@@ -250,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dataList.add("视频");
         dataList.add("番剧");
         dataList.add("直播");
-//        dataList.add("专栏");
+        dataList.add("专栏");
         /*
         为spinner定义适配器，也就是将数据源存入adapter，这里需要三个参数
         1. 第一个是Context（当前上下文），这里就是this
@@ -479,6 +483,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     cwxx = 2;
                     md_xx = 3;
                     live_xx = 3;
+                    cv_xx = 3;
                     dialog.dismiss();
                 }
             } else {
@@ -535,6 +540,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     md_xx = 2;
                     cwxx = 3;
                     live_xx = 3;
+                    cv_xx = 3;
                     dialog.dismiss();
                 }
             } else {
@@ -577,6 +583,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 md_xx = 3;
                 cwxx = 3;
+                cv_xx = 3;
                 dialog.dismiss();
             } else {
                 live_xx = 0;
@@ -594,8 +601,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void run() {
             if (SearchName != null && !SearchName.equals("")){
-
+                String url = "https://www.bilibili.com/read/cv" + SearchName;
+                Connection conn = Jsoup.connect(url);
+                conn.header("User-Agent", userAgent);  // 修改http包中的header,伪装成浏览器进行抓取
+                Document doc = null;
+                try {
+                    doc = conn.get();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                String cwxxString = doc.getElementsByClass("error-text").text();
+                if( cwxxString.equals("今天真是寂寞如雪哦~") ) {
+                    dialog.dismiss();
+                    cv_xx = 1;
+                } else {
+                    title = doc.getElementsByAttributeValue("itemprop","title").first().attr("content");
+                    info = doc.getElementsByAttributeValue("itemprop","description").first().attr("content") + "......  ";
+                    cover = doc.getElementsByAttributeValue("itemprop","image").first().attr("content");//判断是否是错误的AV号
+                    cv_xx = 2;
+                    cwxx = 3;
+                    md_xx = 3;
+                    live_xx = 3;
+                    dialog.dismiss();
+                }
+            } else {
+                cv_xx = 0;
+                dialog.dismiss();
             }
+            Message message = new Message();
+            handler.sendMessage(message); // 将 Message 对象发送出去
         }
     };
 
@@ -605,6 +639,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             cover_ui();//视频封面UI操作
             md_ui();//番剧封面UI操作
             live_ui();//直播封面UI操作
+            cv_ui();//直播封面UI操作
             down_satate();//判断下载状态
         }
     };
@@ -699,6 +734,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             main2.setVisibility(View.VISIBLE);
         } else if (live_xx == 4) {
             Toast.makeText(MainActivity.this, "这个直播间没有封面哦 _(:3...", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * 专栏UI操作
+     */
+    public void cv_ui () {
+        if ( cv_xx == 0 ) {
+            Toast.makeText(MainActivity.this, "CV号不能为空哦 _(:3...", Toast.LENGTH_SHORT).show();
+        } else if( cv_xx == 1 ) {
+            Toast.makeText(MainActivity.this, "输入的CV号有误哦 _(:3...", Toast.LENGTH_SHORT).show();
+        } else if ( cv_xx == 2 ) {
+            TextView Titlecr = (TextView) findViewById(R.id.cv_title);
+            TextView infocr = (TextView) findViewById(R.id.cv_info);
+            ImageView covercr = (ImageView) findViewById(R.id.cover);
+            Titlecr.setText(title);
+            infocr.setText(info);
+            Glide.with(MainActivity.this)
+                    .load(cover)
+                    .error(R.drawable.akari)//图片加载失败后，显示的图片
+                    .fitCenter()//等比拉伸
+                    .into(covercr);
+            //控件状态
+            LinearLayout main = (LinearLayout) findViewById(R.id.cv_main);
+            CardView main2 = (CardView) findViewById(R.id.cover_layout);
+            main.setVisibility(View.VISIBLE);
+            main2.setVisibility(View.VISIBLE);
         }
     }
 
