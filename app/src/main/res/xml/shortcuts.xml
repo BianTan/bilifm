@@ -1,0 +1,16 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="scan_shortcuts"
+        android:enabled="true"
+        android:icon="@drawable/scan_s"
+        android:shortcutShortLabel="@string/scan_short_name"
+        android:shortcutLongLabel="@string/scan_long_name"
+        android:shortcutDisabledMessage="@string/scan_disable_msg">
+
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="org.biantan.bilifm3"
+            android:targetClass="com.yzq.zxinglibrary.android.CaptureActivity" />
+        <categories android:name="android.shortcut.conversation"/>
+    </shortcut>
+</shortcuts>

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ShortcutManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -38,8 +39,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.yzq.zxinglibrary.android.CaptureActivity;
 import com.yzq.zxinglibrary.common.Constant;
 
@@ -659,17 +660,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             TextView infocr = (TextView) findViewById(R.id.info);
             ImageView covercr = (ImageView) findViewById(R.id.cover);
             ImageView up_imgcr = (ImageView) findViewById(R.id.up_img);
+            DrawableRequestBuilder<String> thumbnailRequest = Glide.with( MainActivity.this ).load( cover );
             upnamecr.setText(user);
             signcr.setText(sign);
             Titlecr.setText(title);
             infocr.setText(info);
             Glide.with(MainActivity.this)
                     .load(cover)
+                    .thumbnail( thumbnailRequest )
                     .error(R.drawable.akari)//图片加载失败后，显示的图片
                     .fitCenter()//等比拉伸
                     .into(covercr);
             Glide.with(MainActivity.this)
                     .load(up_img)
+                    .thumbnail( thumbnailRequest )
                     .error(R.drawable.akari)//图片加载失败后，显示的图片
                     .fitCenter()//等比拉伸
                     .into(up_imgcr);
@@ -691,8 +695,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(MainActivity.this, "输入的MD号有误哦 也可能这个番仅港澳台啦 _(:3...", Toast.LENGTH_SHORT).show();
         } else if (md_xx == 2) {
             ImageView covercr = (ImageView) findViewById(R.id.cover);
+            DrawableRequestBuilder<String> thumbnailRequest = Glide.with( MainActivity.this ).load( cover );
             Glide.with(MainActivity.this)
                     .load(cover)
+                    .thumbnail( thumbnailRequest )
                     .error(R.drawable.akari)//图片加载失败后，显示的图片
                     .fitCenter()//等比拉伸
                     .into(covercr);
@@ -724,8 +730,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(MainActivity.this, "输入的房间号有误哦 _(:3...", Toast.LENGTH_SHORT).show();
         } else if (live_xx == 2) {
             ImageView covercr = (ImageView) findViewById(R.id.cover);
+            DrawableRequestBuilder<String> thumbnailRequest = Glide.with( MainActivity.this ).load( cover );
             Glide.with(MainActivity.this)
                     .load(cover)
+                    .thumbnail( thumbnailRequest )
                     .error(R.drawable.akari)//图片加载失败后，显示的图片
                     .fitCenter()//等比拉伸
                     .into(covercr);
@@ -749,10 +757,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             TextView Titlecr = (TextView) findViewById(R.id.cv_title);
             TextView infocr = (TextView) findViewById(R.id.cv_info);
             ImageView covercr = (ImageView) findViewById(R.id.cover);
+            DrawableRequestBuilder<String> thumbnailRequest = Glide.with( MainActivity.this ).load( cover );
             Titlecr.setText(title);
             infocr.setText(info);
             Glide.with(MainActivity.this)
                     .load(cover)
+                    .thumbnail( thumbnailRequest )
                     .error(R.drawable.akari)//图片加载失败后，显示的图片
                     .fitCenter()//等比拉伸
                     .into(covercr);
