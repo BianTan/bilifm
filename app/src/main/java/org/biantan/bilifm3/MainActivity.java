@@ -675,7 +675,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .load(up_img)
                     .thumbnail( thumbnailRequest )
                     .error(R.drawable.akari)//图片加载失败后，显示的图片
-                    .fitCenter()//等比拉伸
                     .into(up_imgcr);
             //控件状态
             LinearLayout main = (LinearLayout) findViewById(R.id.info_owo);

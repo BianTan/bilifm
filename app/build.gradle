@@ -24,7 +24,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:design:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
 //    网络库
     implementation 'com.squareup.okhttp3:okhttp:3.4.1'
@@ -33,12 +35,14 @@ dependencies {
 //    抓取页面
     implementation 'org.jsoup:jsoup:1.11.2'
 //    卡片布局
-    implementation 'com.android.support:cardview-v7:27.0.2'
+    implementation 'com.android.support:cardview-v7:26.1.0'
 //    图片
-    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.android.support:support-v4:26.1.0'
 //    权限
     implementation 'pub.devrel:easypermissions:1.0.1'
 //    Android APP 内部捐赠
     implementation 'com.github.didikee:AndroidDonate:0.1.0'
+//    文件夹
     compile 'com.github.supertaohaili:FileChooser:1.0.9'
 }
